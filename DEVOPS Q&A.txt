@@ -1,0 +1,64 @@
+                                                    Definations of devops and its tools
+What is Devops?
+-DEVOPS IS A PROCESS OF IMPROVING ITS DELIVERY by ensuring proper automation, quality, continous monitoring, continous testing is in place.
+
+
+Tell about ur self?
+I have four to five years experience in devops and previously worked as a system admin.  In my current organization I take care of automation, 
+I ensure there is a qulaity that are mainitained for the application, and I ensure that I set up continous montioring and I have 
+automated the testing into the devops lifecycle.
+
+                          Software Deveoplment lifecycle (SDLC)
+
+
+How do you create 10 virtual machines at once? what is the automation you are using in your organization for infrastructure creations?
+It depends upon organization efficency either we can use AWS CLI, AWS API, API CFT, AWS CDK (cloud deveopment kit) or as an open source terraform.
+
+
+For hybrid cloud pattern (using different clouds), terraform is used to create infrastructure across the platforms.
+
+For terminals to log into vm, for mobaxterm, nomachine
+
+Launch EC2 instance (create new keypair and security group)
+
+connect, copy ssh command, paste in GIT
+
+sudo apt-get update
+sudo apt-get install awscli
+
+aws --version
+aws configure
+keys
+location
+output json
+bash is widely used scripting
+bash
+
+FOR AWS CLI COMMANDS USE GOOGLE AWS CLI COMMAND REFERENCE (AT THE BOTTOM OF THE PAGE)
+https://docs.aws.amazon.com/cli/latest/index.html
+create a .sh file using vi test.sh
+#!/bin/bash
+####list of ec2####
+ '' list of ec2''
+echo "print list of ec2"
+aws ec2 describe-instances | jq '.Resrvations[].Instances[].Instanceid'
+
+"list of s3 "
+echo "print list of s3"
+aws s3 ls
+
+"list of lamda"
+aws lamda list-functions
+
+cat test.sh
+chmod 777 test.sh
+./test.sh
+all log details will appear 
+
+
+
+
+
+
+
+ 

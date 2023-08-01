@@ -1,0 +1,123 @@
+there is concept of master and slave 
+before that we need to know about public and private key
+public key is like locker and private key is like a biometric key 
+we can put any file in the locker and send it in group
+other can encrpt the file in our publickey and send to us  
+but the people with the private key can only open the lock and see the file from the group
+its just like that.
+in an instance machine microsoft and amazon create the private key and public key them selfs and 
+give the private key to the user to save it in their system its RSA .
+with this only we can open that instance
+both this key will be in algorithm formate 
+xxxxxlet see how we can create a public and private key xxxxxxxxxx
+we can create a algorithm based pulic and private key using [putty gen ]
+
+now consider we are in ubuntu machine
+as ubuntu user we can check here by
+ls -lrt
+total 0 will be show here
+because its just a list if [ls -a]
+it will show all hidden files
+in that there will a be .ssh file 
+cd .ssh/
+ls -a
+there will be authorizedkey
+cat authorizedkey
+uyewbcpqiefhv;qeriufyn n[O'ILJDC'JKRHFNVODUYVFTRTANLVGFA;OAIDV 
+POJRGURNVPIUGRGWFRWE'TLVUIMHPBIT
+,BRKLIMHAVOIOI'OIJGT
+HPOI,
+N[POY.]PNOEI,HFMAGWYNFTDBRFEYGRBYIWETFINEWYTJR98T[ERUT8REYGOUE KUMARANKEY
+
+this is our publickey
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+we say all this because the master and slave machine need ssh connection
+so we saw about public and private key
+we can use user name pw after we pen the sysytem using private key
+
+ssh ->is a port through server
+int he master machine we craete 2files
+id_rsa
+id_rsa.pub
+cp authorized_keys id_rsa.pub
+we have copied the authorized key in to id_rsa.pub 
+we should read aboud ssh connectivity in internetfor an idea
+vi id_rsa
+we copy our private key from our system and paste it here in insert mode
+esc:wq
+now this public and private key pair
+now when we do ssh it will ask for these two
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+clear 
+ls -lrt
+we sshould change permission allow to use this machine
+chmod 400 *
+now only the ubuntu user can use the machine 
+this part comes at 41min in jenkins video 3
+consider we created master and slave vm machines in azure portal
+now coming back to jenkins
+go to manage jenkins->manage nodes and clouds->it will show master 
+add ->new node from left coloum
+it will save node name give machine name[slave machine] -permanent agent ->ok
+now machine description 
+number of executor [we can add according to the RAM]
+IM ADDING 2
+-remote root directory
+go to machi add
+mkdir jen
+cd jen/
+pwd
+/home/ubuntu/jen
+now our present working directory is this. now we taking this
+add ot in remote root directory
+this is were our job will run folder path for salve landing path
+we have set this folder to store our data
+-lables
+we can add the project alias sbi
+-launch agent method
+->via ssh [WE USE SSH BUILD AGENT PlUGIN] its default plugin we addded . we can add if its not there
+ -HOST = slave ip address
+
+we need 3 details to connect with a machine 
+*pub ip, *username,*pvt key  
+credentials
+kind
+ssh username with privatekey 
+username:ubuntu
+privatekey:dsbfilgbfcer;oiubsoyhbewlagbcfuklyfb;iugtabueerqbljf
+add 
+-host key verification strategy
+manually trusted key verifiaction strategy
+
+save launching and connected will showp up
+video time 49min jenkins 3video greens
+
+once we connected both slave and master machine
+go to slave machine 
+when we check this list ls -lrt
+remoting.jar 
+remoting 
+now new jar file and remoting apperar because our connection is successful
+
+now we are gonna prove this 
+go to jenkins -> create a new project 
+slave test
+->configure 
+we can restrict this project to slave machine 
+under GENERAL
+[ok]restrict wherevthis project can run 
+it will ask lable
+[sbi (its our projrct)
+now this project wil run on the lable where our sbi project stored9slave machine)
+
+build ->execute shell in windows or linuxs based according to the local machine
+date 
+save
+
+now we are gonna run the slavetest build
+the build is successful
+no go to slave machine 
+hit ls- lrt
+now there will be an extra [workspace ]created there
+because our build is successful
+50min only balance remaining

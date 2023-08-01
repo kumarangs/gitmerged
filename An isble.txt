@@ -1,0 +1,102 @@
+Confirugation management
+
+Puppet, Chef, Anisble, Salt
+
+Anisble uses push method, agentless, python programming, yaml script
+inteventory, dyanmic inventory
+
+ansible supports both windows and linux.
+
+Disadvantages less windows support, debugging and performance less in larger scales.
+
+Can create module and can be used in all cloud platforms
+just need public access or access to ansible for configuration.
+/Uses ssh to connect linux and win.*** to connect in windows..
+
+For modules and yaml codes uses ansible galaxy .
+to insatll ansible in our machine we need to install python and follow the instrctions in ansible documentation site or
+use create ubuntu EC2 and 
+* sudo apt update
+* sudo apt install ansible.
+* ansible --version
+
+Ways to configure a target machines
+1.  ssh-copy-id Private IP 172**** - but ssh does not have enough permissions to configure
+
+second method is :
+2. ssh-keygen 
+we need to aprove the directory home/ubuntu/.ssh/
+- we get authoraziedkey, id (RSA) public and id (RSA private) private keys.
+never share private keys, copy the public keys using cat pathway, and copy the key content
+connect second machine and give ssh-keygen, ls ~/.ssh/
+change to sudo -s [in target machine]
+vim authorized paste the public key from main machine (first machine or master)
+so that ansible machine can connect to tartget machine without password using ssh-IP
+ssh-private IP (target)	
+
+We do not need to write playbooks all times.  For simple tasks, we can use CLI commands.
+
+create inventory file and add target private IP addresses.
+
+for simple tasks use ansible adhoc commands.
+
+For ansible adhoc commands use ansible galaxy that is all modules
+https://docs.ansible.com/ansible/2.9/modules/list_of_all_modules.html
+
+ansible -i inventory all -m "shell" -a "touch deveopsclass"	
+-m means module,.  -a means arguments.
+
+for copy we can change the module to copy using 
+ansible -i inventory all -m "copy" -a "src: "" dest: ""
+
+there are other adhoc examples like delete ,paste ... we can try it
+
+the are different types of servers like db servers and web servers
+we can group up server in our inventroy file as list[]
+
+ansible will looks into the file and check for webserver group and excute
+ansible -i inventory webserver -m "shell" -a "touch deveopsclass"
+
+search modules and arguments for adhoc commands?
+
+ex to install ngnix and restart ngnix
+create a yml playbook
+
+ 
+---
+- name: Install Nginx
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Install Nginx
+      apt:
+        name: nginx
+        state: present
+    - name: Start nginx
+      service:
+        name: nginx
+        state: started
+ansible-playbook -i inventory first_playbook.yml
+go to target system and check with command
+sudo systemctl status nginx
+it will show active running status
+ 
+these are the methods of cmds in ansible
+-ansible -i inventory webserver -m "shell" -a "touch deveopsclass"
+-ansible-playbook -i inventory first_playbook.yml
+-ansible-galaxy role init jenkins
+doubts ?
+where to find path for roles?
+Git sends notification to jenkins.  USing WEbhooks it only semnds trigger or notification to jenkins.
+
+What agent u r using in Jenkinsfile?
+We use declerative file becuase are better, scripted are more unstructured, decleartive are easy to write and easy to colleraberate,
+even non-techanical persons can understand.
+
+What type of agents you are using in Jenkins?
+We are using Docker agent which is very light weight, easy to use.  If we are using docker agents we dont need to do lot of 
+installation like building tools mavens and testing tools etc..
+
+
+BEst continous devlivery is Gitops

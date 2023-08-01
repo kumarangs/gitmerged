@@ -1,0 +1,20 @@
+launch ec2
+insatll java latest or req version
+install jenkins using digital ocean or veeramalla git repo
+install docker using digital ocean or veeramalla git repo
+
+usermod -aG docker jenkins[it to give the jenkins user access to docker]
+usermod -aG docker ubuntu [it to give the jenkins user access to docker]
+systemctl restart docker
+su - jenkins
+now check with this doc command
+docker run hello-world
+now access jenkins
+it port didnt work check security group inbound rules and add 8080 port
+and restart the jenkins after installing docker plugins [we used docker plugins in our project]
+
+jenkins projects.
+
+Question 1:
+How does jenkins get notified if there is a commit in GIT?
+

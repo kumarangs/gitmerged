@@ -1,0 +1,64 @@
+launch ec2
+sudo apt update
+sudo apt install docker.io
+systemctl status docker
+sudo usermod -aG docker ubuntu
+logout and login again
+
+clone source code
+docker run hello-world
+
+docker login
+user and password
+
+go to the dockerfile location path
+docker build -t accountname/filename .
+docker run -it image name (normal)
+
+
+docker run -p 0000:8000 -it image name {for port]
+
+to push
+docker push containerid or name
+
+check in server with portid
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+docker run -d -P nginx (we will get port alloted automatically)
+docker run -P nginx (container excecuted and starts running in front and we cant use and to exit from it use ctrl+c and container exits)
+docker logs container ID - this command gives the complete log of the container
+
+For example to know the use of docker logs commands
+docker run -d -P mysql (we get the container but it will not be active so we need to use docker logs command)
+docker logs container ID of mysql
+we need to speific one of the environment variable ;
+mysql_root password
+mysql_allow empty
+mysql_random root
+
+here we give root password
+docker run -d -P -e mysql_root password=muthu mysql 
+now the container runs perfrctly at the back we can check it with docker ps -a
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+now we see about container bindmount
+ we create a directory as sqldata 
+docker run --name sqldata -d -e MYSQL_ROOT_PASSWORD=sathish -p 3030:3306 -v /home/ubuntu/sqldata:/var/lib/mysql mysql
+now the container logs will also be saved both in local and host volume directory
+we can check it inside the mounted volume folder or directory here its mysqldata 
+/var/lib/docker/containers
+docker exec -it contid /bin/bash [to go inside container]
+here we can check the msql directory for data if th container is in active state
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+now same process but docker volume
+docker volume is more practical its run by docker default we an preserve the data to use it on another container
+docker volume create <volume name>
+docker run --name sqldata -d -e MYSQL_ROOT_PASSWORD=sathish -p 3030:3306 -v <volumename>:/var/lib/mysql mysql
+switch to root user
+/var/lib/docker/volumes
+here we can check the container data
+same as the mount but docker cmd ussed to create volume {IMPORTANT} ONLY VOLUME DATA CAN BE ADDED OR USED IN FUTURE CONTAINERS MOUNT WONT WORK
+
+
+

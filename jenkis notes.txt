@@ -1,0 +1,209 @@
+we need java to install jenkins,tomcat
+jenkins is an integrating tool but it dont know how to integrate so we add plugins to integrate
+with other tools.
+
+to create a job
+*create ->build steps ->excute shell->date ->save->dashboard ->build
+sh comands works only in linux not in windows
+weather reports shows our status[it will only show last 5 builds]
+
+x)now queing of jobs
+x)now we create 3jobs 
+1)dev,test,prod 
+2)now we gonna create alink btw these 3 by ->configure-> post build action
+in that we add test SAVE
+3)AFTER that in post buid action-> select build other projects in the call prod ->save
+now we success fully created a squence to call these 3 jobs one after another in automation
+
+x)now call dev it will automatically call test after test complete prod will start this is squence
+
+There is UPSTREAM & DOWNSTREAM projects
+1st upstrem = dev->test->prod
+upstream of test = dev 
+downstream of test = prod
+
+we can set trigger in post build actions in many ways automatically with conditions applied by us. like build periodically
+build periodically *****[ cron tab ]
+*min *hr *day *month *year 
+remote trigger
+http://localhost:8083/JENKINS_URL/job/dev/build?token=12345
+its jenkins url and trigger code we copy them both and host to start the build
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+now we see about manage and assign roles
+
+we need users to assign users permission 
+first go to manage user +create user -> user1 = bose user2 -> sakthi
+nowe we need to set permissions for users
+go to manage roles 
+*global roles [all employes] 
+*item roles [specif dep dev, test,hr,manager etc]
+we can give readonly permission to all employes 
+
+now we need group item roles
+role to add [developer]
+pattern [cron regex] dev.* its a patern seraching algorithm .all projects start with dev will have same permissions 
+like [dev - team1 ,dev -team2, dev -team3] but [des -team1, des- team2] wont get permission
+there will be 100 of projects handled in a system so we use this pattern set to segregate permission with [regex].* experssion
+testsbi.* = testsbi -team 1, testsbi -team 2 [testitc -team 1 ,testitc -team2 ]wont have permission
+
+project start with dev will have full access for developers
+same for test get full access for tester 
+
+in manage and assign roles
+we should set item roles for the user 
+user1 [ok] developer [x] tester
+user2 [x] deveeloper [ok] tester
+
+user 1 will have all developer based projects only 
+user 2 will have accsess to tester based projects only
+
+when we sign in from those accts we can see the diff in the accts of those dashbords
+there wont be any build and edit options for denied projects
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TOMCAT INSTALLATION GUIDE FOR LINUX SYSTEM
+tomcat is used to deploy java based application jar war ear
+its a place to run java code [dev will give java code]
+
+tar file is a commpressed file
+when tar we download tomcat it will be in this format
+we have to extract it
+in linux machine [tar -xvzf apache tomcat-7.0.109.tar.gz]
+we can google it for the command
+it will de commpress it 
+ls -lrt
+we can see it inside
+in linux we have a file directory [google it for explanation images]
+/bin/ essential user command binaries
+/dev/ divice files
+/etc/ host specific system configuration
+/home/ user home directories
+/lib/ essential shared libraries
+/opt/ add-on application software packages
+/var/ variable files [m installs will be here ]apt install will store here
+/root/ home direc for the root user
+
+so now
+mv apache /opt/
+cd opt/
+ls -lrt
+tomact moved here
+cd apache-tomcat/
+ls -lrt
+so many files will be show 
+4 folders are important
+/opt/apache->
+-web apps
+-logs
+-config
+-bin [binary]
+
+TO START TOM CAT 
+cd bin/
+ls -lrt
+startup.sh will be there 
+to run shell script 
+sh startup[filename] or ./filename
+tomcat started
+xxxxxxxx [to change localhost server of tomcat ]xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+cd conf/
+ls -lrt
+server.xml
+vi server.xml
+down below <connector port 8080 protocol =http [we can change port 8082,83]
+will be there we can edit this to change the port for tom cat
+esc:wq
+cmd : wget file name or link
+war file will download here
+deloyment process
+
+xxxxxx now how to change jenkins port number xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+clear
+PATH cd etc/ if its empty then go ,cd default/ but etc/ is commom for most sysyems 
+ls-lrt
+jenkis will be there
+vi jenkins
+port for HTTP connector (default 8080)
+HTTP_PORT = 808_ WE CAN EDIT THIS TO CHANGE PORT NUMBER
+ETC:WQ
+WE HAVE TO RESTART FOR IT TO ACTIVATE
+in linux cmd = service jenkins stop 
+service jenkins start
+in jenkins
+download a sample java war file from internet for tomcat deploy
+go to programdata/jenkins/.jenkins folder in windows
+for linux cd/var/lib/jenkins/
+ls -lrt
+cd workspace/
+ls -lrt
+all the projects will be listed here
+importantly the project appear here only after when we hit build it jenkins
+cd projectname/
+full path:var/lib/jenkins/workspace/projectname# cp /root/sample.war .[root folder la iruka sample war file copy panni currentpath konduva]
+ls -lrt
+sample war file will show up
+ithu ethukuna just for proof to show we have the samplein jenkins workspace
+now jenkins will do the deployment 
+get back to dashbord
+search in internet
+jenkins plugins to integrate tomcat
+deploy to container [plugin] helps to integrate with
+xtomcat
+xjboss
+xglassfish
+
+now go to dashbord and install the deploy to container
+no go to ->project -> post build and add deploy war /ear file
+{now we r gonna do the deployment activity}
+war/ear files?
+[sample.war this is the files name                                     ]
+if we have already took sample war to workspace so we dont need to give path/else :var/lib/jenkins/workspace/projectname
+CONTEXT PATH
+[/sample]
+CONTAINERS
+[we can select the tomcat version we have]tomcat 8
+TOMCAT URL
+HTTP IP ADRESS PORT [8082]IS MINE
+NXT IS PERMISSION WE have to set the credentials for autth person only to access this
+we can google the steps or ask tariner later
+once user credentials and pw: given
+SAVE 
+NOW WE satrt the build schedule
+there will be an error occur 
+we look the solution in google for solution
+webapps/manager/META-IF/ [IN THIS PATH]
+ls -lrt
+context.xml file will appear
+vi context.xml
+and add few extra lines we got from google and save it
+now restart tomcat
+./shutdown.sh
+./startup.sh
+now hit build project again
+build succes
+HTTP IP ADRESS PORT [8082]we chek here the file will run in this tomcat server
+
+we told there are 4 folders important 
+
+-web apps
+-logs -> logs
+-config -> user/port
+-bin [binary] ->start/stop
+
+cd webapps /
+ls -lrt
+we can see sample.war here this was the file we gave to jenkins to deploy it did the deployment automation
+so the file came to webapps
+we can do this manaully but we need to do this auto mode
+
+task - jenkins version ?using cli
+CLI EXAMPLE
+git =git init
+docker = docker run 
+
+2 -EMAIL NOTIFICATION ENABLE VIDEOS AVAILABLE IN JENKINS 3 VID LAST 10MIN
+3 -CREDENTIALS ACCT And pw will be stored in credentials find the pw locations
+
+
+
+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx

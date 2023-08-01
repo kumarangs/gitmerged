@@ -1,0 +1,324 @@
+kubernetes vs docker
+
+container- we can create it using docker.we can run it through cmd line and docker file
+
+pods -kubernetes create yml manifest and define all the things req such as images and req paramater .a pod can be a single and multiple containers
+its a similar to container nothing else
+
+deployment -if u can deploy a container using pod what is the use of pod .kubernetes offer auto healing and scaling using deployment it deploys pods only 
+but it does it with deployment resource
+
+service -service offering discovery,loadbalancing and it also exposes appication to the external world
+types of svc -clusterip, nodeport, loadbalancing
+
+ 
+it create replica set which is kube controller it will roll out pods 
+it will controll the users number and ensure the load balancing 
+even if a user delete a pod but controller ensures it heals the pods and manage the function
+
+RPILICA SET CONTROLLER -AGROCD maintains what written in the yml manifesto either creating or deleting 
+KOPS and minikube were cluster 
+
+Docker only can create images and containers but it does not
+have autohealing, autoscaling, enterprises level so we use
+kub.
+
+Master - api server, scheduler, etcd controller and cloud controller monitor
+Node - kubelet, kubeproxy, container runtime.
+
+Kuberneter controls and fixes damages of host autoheal, autoscal, enterprise level.
+
+(openshift, rancher, tanto, EKS, AKS, GKE) - used to form cluster - like minikube in production level.
+
+To practise 
+need to install kubectl, docker, minikube and need 
+2 GB RAM or more
+2 CPU / vCPU or more
+20 GB free hard disk space or more
+Docker / Virtual Machine Manager – KVM & VirtualBox
+check - https://www.linuxtechi.com/how-to-install-minikube-on-ubuntu/
+
+minikube start
+kubectl get pods
+vi pod.yml (copy from net)
+kubectl create -f pod.yml
+kubectl get pods
+kubectl get pods -o wide - to get full details and ip 
+minikube ssh
+curl podIP - to check app status
+
+
+minikube start
+create deployment .yml
+important were lables, port,app
+
+
+
+
+apiVersion: apps/v1
+kind: Deployment [important]
+metadata:
+  name: nginx-deployment
+  labels:
+    app: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx [copy this name to service .yml]
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx:1.14.2
+        ports:
+        - containerPort: 80 [hmtl port 80 ] traffic 
+
+->save and run kubectl apply -f deployment name
+
+->vi service.yml
+
+apiVersion: v1
+kind: Service[important]
+metadata:
+  name: my-service
+spec:
+  selector:
+    app.copy from deployment 
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort :80
+
+->save and run kubectl apply -f sevice name
+
+nodeport service
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-service
+spec:
+  type: NodePort
+  selector:
+    app.copy from deployment
+  ports:
+    - port: 80
+      targetPort: 80      
+       (default: 30000-32767)
+      nodePort: 30007
+
+kubectl get deploy
+kubectl get svc
+minikube ip 
+curl http://minikubeip:tcp port 3*****
+kubectl describe cluster name to see full details 
+we can check this with ec2 publicip and port in web
+we cant use minkube this in enterprise level
+to run these on cloud we use loadablancer to use loadbalancer service just edit the nodeport yml
+change the type from nodeport to loadbalancer
+and run the file
+
+we get loadbalancer public id and accces it through web
+
+INGRESS : 
+In Kubernetes, an Ingress is aN API that defines rules for routing external traffic to services within the cluster.
+ITS USES:
+It is used to manage how incoming traffic from outside the cluster is directed to different services based on hostnames, paths, and other attributes.
+it acts as an entry point for incoming traffic to the cluster.
+
+Keep in mind that Ingress resources are only applicable for clusters that have an Ingress controller deployed and running. 
+
+Overall, Kubernetes Ingress simplifies the process of exposing services to the outside world,
+providing a flexible and powerful way to handle external traffic to your cluster.
+
+ok consider now our pods and services were running and weed need a ingress controller
+
+host based loadbalancing
+ingress controll manager 
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-wildcard-host
+spec:
+  rules:
+  - host: "foo.bar.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/bar"
+        backend:
+          service:
+            name: service1
+            port:
+              number: 80
+  - host: "*.foo.com"
+    http:
+      paths:
+      - pathType: Prefix
+        path: "/foo"
+        backend:
+          service:
+            name: service2
+            port:
+              number: 80
+
+kubectl appply -f name.yml 
+we have created ingress service
+
+before hosting we need to install ingress controller
+
+cmd : minikube addons enable ingress 
+now we have installed the ingress in our system which uses minikube 
+
+kubectl get pods -A | grep nginx  [to see running ingress controller ]
+we can see the list of running ig controllers
+
+now cmd :  kubectl logs ingress-nginx-controller-7799c6795f-gszf7 -n ingress-nginx [ use the id and name of the contoller here]
+its used to check the service name which we provided in ingress.yml to confirm its the same name synched [important]
+
+cmd :kubectl get ingress 
+we can see the address has our minikube ip
+
+sudo vim /etc/hosts
+we should paste our minikube ip and domain name and ssave it [its not used in production]
+
+we have connected a new domain named foo .com to our ig controller and synched with minikube 
+but we cant see it now because we dont have a real time domain in the name of foo.com
+
+
+->kubernetes configuration map 
+
+A ConfigMap is an API object used to store non-confidential data in key-value pairs
+
+vi configmap_example.yml
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: example-cm
+data:
+  db-port: "3306"
+
+
+now create the yml file
+->kubectl apply -f configmap_example.yml
+
+kubectl get cm
+now config map is created 
+
+kubectl describe cm example-cm
+this is one data entry
+ 
+data
+===
+db-port
+---
+3306
+
+we taking this data to env variable into our pod
+we can add this data to our deplpoyment.yml the pod
+->before that lets check our pods
+
+{kubectl get pod
+choose any req pod name and execute the pod
+kubectl exec -it pod name -- /bin/bash
+now we are inside the pod as root acct
+->env | grep db 
+nothig is inside }
+
+now go to our deployment.yml and add
+
+and add
+........
+.......
+.....
+....
+
+conatiners:
+ -name:
+  image:
+  evn :
+  -name:DB-PORT
+   valuefrom:
+   configMapkeyref:[
+   name: example-cm
+   key :db-port
+save
+
+no go back and check
+->kubectl apply -f configmap_example.yml
+kubectl get pods -w [we can seet the new pods getting on]
+kubectl exec -it pod name -- /bin/bash
+now we are inside the pod as root acct
+->env | grep db 
+DB_PORT=3306
+now the dev can see can retrive the env variable through io.dbport[some cmd]
+
+we can change the DB_port if need 
+go to the cm.yml
+and change the port 330*
+
+but we cant change the env variable becuse the cont wont allow .so we have to create a new contaier
+
+HERE in companies we use another way that is volume mounts
+kubenetes says go with volume mounts using this u can do the same thing but insted of env variable we use its as FILE
+we can save it inside the file
+vi configmap_example.yml
+
+conatiners:
+ -name:
+  image:
+  evn :
+  -name:DB-PORT
+   valuefrom:
+   configMapkeyref:[
+   name: example-cm
+   key :db-port
+save
+
+above is our old file now we move the entire env and into the FILE sodev and read it there
+now we are taking a new deployment file with volume mount 
+
+conatiners:
+ -name:
+  image:
+  volumemounts:
+   -name:db-connection
+    mountpath: /opt we can save it any folder[db-connection]
+  port:
+   -containerport-8000
+  volumes: we can create internal volume extrnal volme persistent volume
+   -name :db -connection 
+    configmap:
+    name :example-cm
+save
+->kubectl apply -f configmap_example.yml
+kubectl get pods -w [we can seet the new pods getting on]
+kubectl exec -it pod name -- /bin/bash
+now we are inside the pod as root acct
+->env | grep db [ther wont be any env variable since we add volumemount instead]
+so use ls/ opt
+key:db-port
+cat /opt/db-port | more
+3306 
+exit
+
+now we gonna change the port number and check weather kubernets can understand it and change without stoping the container 
+vi configmap_example.yml
+change the port name from 3306 to 3307
+and save and apply
+kubectl apply -f config_example.yml
+kubectl get pods -w [we can seet the new pods getting on]
+kubectl exec -it pod name -- /bin/bash
+so use ls/ opt
+key:db-port
+cat /opt/db-port | more
+3307
+
+success
+

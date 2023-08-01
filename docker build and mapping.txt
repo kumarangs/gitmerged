@@ -1,0 +1,21 @@
+EC2
+docker install
+tooplate download the desiered website
+copy the link using f12, need to copy zip format
+sudo apt install wget
+weg url {kitchen}
+mkdir project
+apt install unzip 
+unzip url.zip {kitchen}
+now file is unzipped {kitchen}
+cd unzipped file {kitchen}
+tar czvf prod1.tar.gz
+mv prod1.tar.gz ../
+cd ..
+mv prod1.tar.gz project/
+we moved tar to project directory
+vi dockerfile
+write our docker file
+project$ docker build -t sathish8329/prod1 .
+docker run -d -p 9080:80 image name
+

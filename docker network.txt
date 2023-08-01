@@ -1,0 +1,17 @@
+docker inspect container ID
+you will see bridge as default with IP address
+to check check connections between two containers
+log in to a container using
+docker exec -it container ID /bin/bash
+apt update
+apt install iputils-ping
+ping IPaddress of the container which you want to connect
+ping IP address
+
+To create a secure network, create a new bridge network using
+docker network create networkname (secure)
+docker network ls - will list all the networks availble
+docker run -d --name muthu --network=secure image name
+now inspect this container of muthu using
+docker inspect muthu
+you will see secure network and new IP address which is secured

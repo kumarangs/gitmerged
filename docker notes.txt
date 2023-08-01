@@ -1,0 +1,126 @@
+we need dependencied to run any tools 
+like java for jenkins
+python for ansible
+we should install this software to install the tools
+
+hypervisor:
+hypervisor is a 
+
+some times few apps need two different python versions to run in same system like
+python 1.0 for app and python 2.0 for another app .our system cant have both the versions
+it takes too much space and ram and extra steps 
+if we change anything in system libraries it willl affect all other projects .
+because it depends on many apps like a matrixs
+
+so containerization concepts applied here
+each apps has its own libraries and dependencies 
+
+for example
+ubuntu,suse,fedora,debain all [linux flavours]
+we can use linux[suse] apps in ubuntu using docker container
+we can add the lib and depend for the app in the container and run it in diffrenet linux[flavours]
+
+because we cant download and install all the flavours in our system it need too much space and high config
+but with docker use we can [linux kernal] in our system reduce the data and ram req to overlay different the os and app
+
+[we cant use linux based app in windows simultaneously windows cant run in linux]
+ 
+win kernal = windows nt base [kernal]->win  7,10
+
+linux kernal = ubuntu,suse,fedora,debain all [linux flavours]
+
+we only need to create 2 vms can save money
+
+so hardware infrastucture = remote data center
+  2 hypervisor or vm 
+  docker installed in both vms 
+  2 containors win , linux
+docker is used to run our applications without worrying about our lib and dependencies
+jenkins 8080
+mysql 3306
+http 80
+ssh 22
+now consider docker running in a ubuntu machine
+commands 
+docker images
+docker ps
+port frwd cmd [-p]
+docker run -itd -p "7070:80" httpd [here we port fwd 7070 -> 80 /tcp,7070 is in vm ,80 is inside the container]
+docker ps
+1 httpd container will be runn in vm server [pub ip]
+-we can access it by pasting pub ip and 7070 in urlbar 
+-we will get login access for that container 
+-we can add one more httpd container with new port number
+ docker run -itd -p "8082:80" httpd
+-now the using the same httpd image we created a 2 httpd container with
+differ port 
+-now we have 2 http cont with diff port num for 2 uses in same pub ip
+see the screenshot for reffer
+
+-we can also add jenkins and enginx in this vm using a 3 container
+docker pull jenkins 2.0
+docker run -itd -p "9999:80800" jenkins 2.0
+-now we can login jenkins using this container by [pub ip and 9999 port ]
+docker ps
+1 jenkins
+2 http 
+containers running
+
+-now we are gonna go inside a container
+cmd = docker exec -it cont id 1254664 /bin/bash [terminal]
+-now we came inside a container
+path 1254664 :/usr/local/apache2
+ls- lrt
+-we can edit in config
+cd htdocs
+ls -lrt
+index.html
+cat index.html
+ubbbbwegbc;ukfgkakgk[data]
+vi index.html
+ so apt-get update
+zdbiunvrhnh
+fuybcief;ufyhn;u... done
+-we need vim to edit index.html data
+-in ubuntu we have vim but not inside a container=
+root@ apt install vim
+y/n
+yes
+installation complete
+-now vi index.html
+insert
+-we can edit data here "hello world welcome"
+esc:wq
+cmd = exit
+-we exited the container
+-now if we access that container using pubip and port
+ "hello world welcome"
+will appear on the server page
+we can change data all other container in this same way
+
+cmd examples
+docker images
+docker ps -a
+docker run -itd --name muthu -p"1234:80" http-> a new container will appear in my name in port fwd 80 
+docker exec -it af /bin/bash [to move inside a container]
+install git
+docker commit af alias:v1.0[tag] to create a superimage
+to save in local = docker save -o/usr/local/myimagebackup.tar alias:v1.0 [saved in local as tar file]
+if the image get deleted we can use
+docker load -i myimagebackup.tar [we will get it from local]
+docker start id
+docker stop cont id
+docker rm id [to] remove multiple docker rm -f all ids 
+docker rmi jenkins2.038[image]we cant remove if there is any container using this image
+docker inspect <id /name> = all details about the cont 
+docker log <id /name> 
+docker stats <id /name>
+docker top <id /name> process [exit to come out]
+
+
+
+
+
+
+
+

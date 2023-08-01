@@ -1,0 +1,30 @@
+WHAT IS GIT ?
+Git is a distributed version control tool that support the linear workflow by providing data assurance for
+developing quality software
+Git favors both programmers and non-technical users by keeping track of their project files. It enables multiple users
+to work together and handles large projects efficiently
+
+
+some git commands and uses
+
+Git config - This command helps to Configure the username and email address
+Git init - This command helps to create an empty repository while working on a project.
+Git add - This command helps to Add one or more files to the staging area
+Git diff - This command helps to View the changes made to the file
+Git commit - This command helps to Commit changes to head but not to the remote repository
+
+
+Git Fetch = The Git fetch command only downloads new data from a remote repository.
+            It does not integrate any of these new data into your working files.
+
+Git Pull = Git pull updates the current HEAD branch with the latest changes from the remote server.
+           Downloads new data and integrate it with the current working files.
+
+Git clone = it allows you to create a local copy of the remote GitHub repository. 
+           Once you clone a repo, you can make edits locally in your system rather than directly in the source files of the remote repo
+
+Git branches = it refer to individual projects within a git repository.
+             If there are several branches in a repository, then each branch can have entirely different files and folders
+
+Git rebase = Git rebase Incorporates all the new commits in the master branch.
+             It rewrites the project history by creating brand new commits for each commit in the original branch
