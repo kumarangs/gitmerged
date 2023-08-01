@@ -1,0 +1,35 @@
+git rebase 
+we have to do the regular steps till complete 2 commits an create a feature
+branch and checkout feature branch and cretae a new file add fourth line :wq
+
+rebase shoul be done in feature branch  
+			
+git rebase master
+git rebased the master and feature branches in order
+git branch
+*dev
+master
+it will show all 4 commits in dev
+
+git checkout master
+git log
+in master there r 3 commits {rebase is used to form line commits 1,2,3,4,5,6}
+
+before merge we need to complete 2 conditions
+git should be in maseter branch
+git log shold be on sync
+
+now git merge master
+now master's 3commits and dev 4,5
+meerged in to master 1,2,3,4,5 smooth merge done
+git log 1->5 all in uniform line
+
+we created feature branch to work and add in to master now we have merged our codes in master we 
+can delete the feature branch 
+git branch -d dev
+-d[delete]dev
+git branch
+master 
+
+now our tracks are smooth
+we cant delete commit from left to right it works top to bottom[right to left]

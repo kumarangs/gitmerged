@@ -1,0 +1,27 @@
+mkdir cherry
+cd cherry/
+git init in local
+vi test-> first line
+git add test
+git commit -m "first commit" ->master branch created
+git branch dev
+git checkout dev
+vi test
+finish second and third commit process
+now the test team said please merge only the second commit
+now we need cherry pick to do that
+
+git checkout dev
+git log
+we need the commit id to ussse in cherry pick
+
+git checkout master
+git log
+we only have 1commit
+
+git cherry-pick commit id [second id]
+inserted
+git log
+
+if we merge all commits will be added but in [cherry pick we can do that one by one only]
+

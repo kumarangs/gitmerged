@@ -1,0 +1,225 @@
+git init
+vi test -> add first line esc :wq
+git status -s [its shows weather its add or modified]
+git add <project>
+git diff [it shows the changes in inside the file which we did ] 
+git commit -m "enna pannirukom"
+git log "it will show all commits"
+git show <commit id>
+git reset --hard id[its helps to restore the id version as head commit extaras will be deleted]
+git remote add <alias>git url
+git push <alias> master 
+
+
+
+ls -a ,ls = list ,-a = hidden files
+
+how to create a branch in git
+1st we have to give git init to initialize git in the git	
+git ls -a (or) ls - lrta
+. .. .git it means git is initialized
+
+1)git branch = this cmd will show the branches if available
+branch will only create when we do our first commit (master branch)
+vi test 
+i ... firts line
+esc:wq
+
+2)git status -s <it will show tracked and untracked files>
+?? test
+
+3)git add .<. means add the files in the current directory>
+
+4)git status -s
+A test <all files in the directory>
+
+5)git commit -m "first commit" <we saving in our local repository>
+
+6)git branch 
+master < it will appear because we did our 1st commit> by default
+
+7)git log
+(head -> master) commit ID jytdbliubclyjtvcausv6rfb
+HERE **HEAD** stands for the last commit we did
+and master is our branch name
+
+vi test
+add seocnd line
+wsc:wq
+
+8)git status -s
+M test <m shows its a modified file>
+
+9)git commit -am "second commit" {this is short cut to do add and commit in the same command} we cant use this cmd in untracked files
+
+10)git log
+(head -> master)second commit
+
+11)now check git status -s
+it will show working tree is clean
+
+12)hit clear and check git log --oneline
+(head ->master)
+
+Now we are gonna add a new branch
+we will get any tickets to work on a project to edit some line .So we should never go to master branch to edit the code.we have to create a feature branch
+
+1)git branch dev<feature branch alias>
+
+2)git branch
+dev
+* master(we r in master branch)
+3)git checkout dev (to jump from (master ->feature dev baranch)
+
+4)git branch 
+* dev
+master
+
+5)ls
+test
+vi test insert
+add 3rd line
+:wq
+
+4)git commit -am "third commit"
+(dev hsvnls)third commit
+here it occrs in the feature branch
+
+5)git log
+(head-> dev) 3rd ,(master)2nd ,1st commits will be there
+
+6)git branch
+*dev
+master
+
+7)cat test 
+1st line 
+2ns line 
+3 line (here in feature branch we have all 3 steps)
+
+8)git checkout master
+cat test
+1stline
+2nd line (here there will be only 2 )cause we did the 3rd in the feature branch
+
+its the virtuality of a file we have 2 differnt copies in 2 differnt branch the file content is different according 
+to the branch dev,master
+
+*we are gonna merge the dev data to master
+consider we are doing all these in local repositiry
+we are moving it to remote
+go to github and create a new repo
+
+1)git remote add <alias>url
+2)git push alias master
+username:
+pw:
+refresh github
+so far we did only for the master branch
+no we give
+1)git push alias dev
+username:
+pw:
+feature  branch also updated we will have both branches in github now
+
+we can check both branches and files differnce 
+
+{we have tooks all the files in the local repo to remote now}
+now others can also acces the files in the remote(company github)
+testing team can pull the changes from remote (dev) to his local once checked and got apporve to merge this into the master branch
+
+git checkout dev
+x)git log
+it will display all the commits and branches done in both (head-> dev,alias/dev)3rd commit
+
+(alias/master,master)2nd commit
+
+cctfkhgf ktf khf hgf 1st commit
+
+xxxxxx NOW COMING TO TOPIC MERGE:
+1)its a type of merge know as smooth merge 
+lets see  how to do smooth merge
+1)first we have to check our branch -> git branch
+*dev
+master
+2)git checkout master
+dev
+*master
+now we are in master
+3)check git log 
+to check the number of commits it should be lower then the feature branch 
+
+Now start the merge operation
+1)git merge dev(feature)
+now all the data in the feature will move to master
+git log
+1st,2nd,(3rd)commits will bw there (head -> master, alias/dev)smooth merge done
+
+git pull alias master
+cat test
+1st,2,3rd line
+we done all these merge and assemble in local repo .we have to push it to remote
+x)
+git push alias master
+username:
+credentialss:
+now all went to remote
+x)git log (head->master, alias/master, alias/dev, dev)
+we can check github and check master branch updated
+first line
+second line
+third line
+
+
+xxxxxx if git conflict occurs xxxxxx
+first line
+second line
+third line
+<<<<<<< HEAD
+=======
+3rd line
+>>>>>>> dev
+we can use visual control tool but merge tool knowledge is need
+we should use git merge tool
+git config --global merge.tool vimdiff
+git config --global merge.conflictcycle diff3
+git config --global mergetool.prompt false
+
+git mergetool
+
+3screens will appear local ,base ,remote
+we cant use mouse here / arrow key only works to move btw screens use {ctrl+shit+w+W} every time to jump btw screens
+
+:diffg LO > LOCAL
+:diffg BA > BASE
+:diffg RE > REMOTE
+
+if we want remote copy IN MASTER
+test mode type
+:diffg RE {SHIFT + ENTER} once issue resolved
+:wqa {to save and close all editor screen}
+4 files edited
+
+ls
+test .testorig
+if we put cat test.orig
+conflit merge will come up
+if we try cat test
+resolved file will up
+
+clear
+git status -s
+M test [M WILL BE IN GREEN] since we used git merge tool it will add it by default
+?? test.org
+git commit -m "final commit"
+git log 
+5 commits will show up [including confilts commits]
+
+we completed smooth merge and conflict mergetool
+git log we need last 3 logs ?
+how to roll back from staging area?
+how to delete / change a commit ?
+
+git branch -a
+to delete baranch = git branch -d dev[feature]
+to delete remote branch = git push alias --delete dev
